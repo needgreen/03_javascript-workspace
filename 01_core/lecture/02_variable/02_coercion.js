@@ -90,3 +90,4 @@ if(0) console.log('if(0)');                 // false
 if(NaN) console.log('if(NaN');              // false
 if('안녕') console.log('if(안녕)');         // true
 if('') console.log('if()');                 // false
+

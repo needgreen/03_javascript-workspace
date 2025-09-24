@@ -252,4 +252,5 @@ console.log(bigInt, typeof(bigInt));
 var test;
 console.log(typeof(test));
 test = 1;
-console.log(typeof(test))
+console.log(typeof(test));
+
