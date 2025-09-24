@@ -153,10 +153,10 @@ function hoistingTest() {
   console.log(b);            // 5    20
   var a = 100;               // 1
   console.log(a);            // 6    100
-  if(true) {
-    console.log(b);          // 7   20
-    var b = 200;             // 2
-  }
+    if(true) {
+      console.log(b);          // 7   20
+      var b = 200;             // 2
+    }
   console.log(b);            // 8   200
 }
 hoistingTest();

@@ -79,7 +79,7 @@ let str2 = '';
 console.log(str2 && str2.length); // 단축평가 (&&) 사용 : 빈문자열은 falsy 값으로 확인되어 출력 안됨
 
 let str3 = null;
-console.log(str3?.length); // 옵셔널 체이닝 연산자 사용하면 모두 노출됨
+console.log(str3?.length); // 옵셔널 체이닝 연산자(?.) 사용하면 모두 노출됨
 
 
 
