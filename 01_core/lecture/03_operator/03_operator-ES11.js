@@ -29,7 +29,7 @@ console.log(grade);
 const input = '' || 'Hello';    // Hello
 console.log(input);
 
-const input2 = '' ?? 'Hello';   // 빈문자열
+const input2 = 0 ?? 'Hello';   // 빈문자열
 console.log(input2);
 
 const input3 = null || 'Hello';  // 우항의 값이 노출 되는 경우는 null 또는 undefined

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript 제어문 퀴즈</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .quiz-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .question {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+      }
+      .question h3 {
+        margin-top: 0;
+      }
+      pre {
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        padding: 12px;
+        overflow-x: auto;
+      }
+      code {
+        line-height: 1.6;
+      }
+      .inline-input {
+        display: inline-block;
+        min-width: 120px;
+        padding: 2px 6px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 14px;
+      }
+      .result {
+        margin-left: 10px;
+        font-weight: bold;
+      }
+      .correct {
+        color: #4caf50;
+      }
+      .incorrect {
+        color: #f44336;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 10px 10px 0;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .show-explanation {
+        background-color: #2196f3;
+      }
+      .show-explanation:hover {
+        background-color: #1976d2;
+      }
+      .explanation {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #e8f5e9;
+        border-radius: 5px;
+      }
+      .answers-hint {
+        color: #666;
+        font-size: 13px;
+      }
+      .q-explanation {
+        display: none;
+        margin-top: 8px;
+        padding: 8px 10px;
+        background-color: #fff8e1;
+        border-left: 3px solid #ffb300;
+        border-radius: 4px;
+        color: #5d4037;
+        font-size: 0.95rem;
+      }
+      .q-answer {
+        margin-top: 6px;
+        font-weight: 600;
+        color: #3e2723;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h1>JavaScript 제어문 퀴즈 (빈칸 채우기)</h1>
+      <p>
+        다음 코드의 빈칸(____)에 들어갈 <b>조건식/제어 구문</b>을 입력하세요.
+        공백은 무시됩니다.
+      </p>
+
+      <div id="questions"></div>
+
+      <button onclick="checkAnswers()">정답 확인하기</button>
+      <button class="show-explanation" onclick="toggleExplanation()">
+        설명 보기/숨기기
+      </button>
+
+      <div id="explanation" class="explanation">
+        <h3>제어문 설명</h3>
+        <h4>조건문</h4>
+        <ul>
+          <li><b>if</b>: 조건이 <code>true</code>일 때 코드 블럭 실행</li>
+          <li>
+            <b>if - else if - else</b>: 순서대로 검사, 처음 <code>true</code>가
+            되는 분기만 실행
+          </li>
+          <li>
+            <b>switch</b>: 일치하는 <code>case</code>에서 실행 시작, 보통 각
+            <code>case</code> 끝에 <code>break;</code>
+          </li>
+          <li><b>삼항 연산자</b>: <code>조건 ? 값1 : 값2</code></li>
+        </ul>
+        <h4>반복문</h4>
+        <ul>
+          <li><b>while</b>: 조건이 <code>true</code>인 동안 반복</li>
+          <li>
+            <b>for</b>: <code>(초기식; 조건식; 증감식)</code> 형태로 횟수 제어
+          </li>
+        </ul>
+        <h4>반복 제어</h4>
+        <ul>
+          <li><b>break</b>: 현재 반복 즉시 종료</li>
+          <li>
+            <b>continue</b>: 이번 회차의 나머지 코드 건너뛰고 다음 반복으로 이동
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // 한 문항당 빈칸 1개. acceptableAnswers는 여러 개 허용
+      const questions = [
+        {
+          title: "[if] 사용자명 미입력 체크",
+          desc: "username이 비어있을 때만 경고 문구를 출력하도록 if의 조건식을 채우세요.",
+          explanation:
+            '빈 문자열은 falsy이므로 !username, username==="" 등으로 비어있음을 판단할 수 있습니다.',
+          code: `const username = "";
+if (____) {
+  console.log("사용자명을 입력하세요");
+}`,
+          acceptableAnswers: [
+            "!username",
+            'username==""',
+            'username===""',
+            "username.length===0",
+            "username.length==0",
+          ],
+        },
+        {
+          title: "[if-else] 짝수/홀수 판별",
+          desc: "num이 짝수면 even, 아니면 odd가 출력되도록 if의 조건식을 채우세요.",
+          explanation:
+            "짝수는 2로 나눈 나머지가 0입니다. 나머지 연산자(%)를 사용합니다.",
+          code: `const num = 11;
+if (____) {
+  console.log("even");
+} else {
+  console.log("odd");
+}`,
+          acceptableAnswers: ["num%2===0", "(num%2)===0", "num % 2 === 0"],
+        },
+
+        {
+          title: "[다중조건-1칸] 무더위 조건만 채우기",
+          desc: "온도 분기(30 이상 무더위 / 10~29 보통 / 0~9 쌀쌀 / 0 미만 한파)에서 첫 조건(무더위)에 들어갈 식만 채우세요.",
+          explanation:
+            "첫 분기는 가장 높은 범위를 먼저 검사해야 아래 분기로 넘어가지 않습니다.",
+          code: `const temp = 8;
+// 아래 분기에서 첫 조건(무더위)에 들어갈 식만 작성하세요
+// 30 이상: 무더위, 10~29: 보통, 0~9: 쌀쌀, 0 미만: 한파
+if (____) {
+  console.log("무더위");
+} else if (temp >= 10) {
+  console.log("보통");
+} else if (temp >= 0) {
+  console.log("쌀쌀");
+} else {
+  console.log("한파");
+}`,
+          acceptableAnswers: ["temp>=30", "temp >= 30"],
+        },
+        {
+          title: "[중첩 if] 비밀번호 길이 체크",
+          desc: "pwd가 존재한다면 길이가 8 미만일 때만 '너무 짧음'이 출력되도록 안쪽 if의 조건식을 채우세요.",
+          explanation:
+            "문자열의 길이 확인은 length 프로퍼티로 하며, 보안상 최소 길이 기준을 둘 수 있습니다.",
+          code: `const pwd = "abc123";
+if (!pwd) {
+  console.log("비밀번호 없음");
+} else {
+  if (____) {
+    console.log("너무 짧음");
+  } else {
+    console.log("사용 가능");
+  }
+}`,
+          acceptableAnswers: [
+            "pwd.length<8",
+            "pwd.length<=7",
+            "pwd.length < 8",
+            "pwd.length <= 7",
+          ],
+        },
+        {
+          title: "[switch] 교통 신호",
+          desc: "각 신호(red/yellow/green)에서 다음 case로 넘어가지 않도록 필요한 제어 구문을 채우세요.",
+          explanation:
+            "switch문에서 break를 쓰지 않으면 아래 case로 연쇄 실행(fall-through)됩니다.",
+          code: `const signal = "yellow";
+switch (signal) {
+  case "red":
+    console.log("정지");
+    ____
+  case "yellow":
+    console.log("주의");
+    break;
+  case "green":
+    console.log("진행");
+    break;
+  default:
+    console.log("알 수 없음");
+}`,
+          acceptableAnswers: ["break;", "break"],
+        },
+        {
+          title: "[switch] 월→계절 (봄 케이스 채우기)",
+          desc: "3~5는 봄입니다. 봄 구간의 누락된 case 값을 채우세요.",
+          explanation:
+            "서로 같은 처리를 하는 case들은 break 전까지 나란히 배치할 수 있습니다.",
+          code: `const month = 4;
+let season = "";
+switch (month) {
+  case 12:
+  case 1:
+  case 2:
+    season = "겨울"; break;
+  case ____:
+  case 4:
+  case 5:
+    season = "봄"; break;
+  case 6:
+  case 7:
+  case 8:
+    season = "여름"; break;
+  default:
+    season = "가을";
+}
+console.log(season);`,
+          acceptableAnswers: ["3", "03"],
+        },
+        {
+          title: "[삼항] 로그인 메시지",
+          desc: 'isLoggedIn이 false일 때 "로그인이 필요합니다"이 출력될 수 있도록 작성하세요.',
+          explanation: "삼항 연산자는 간단한 분기에서 if-else를 대체합니다.",
+          code: `const isLoggedIn = false;
+const msg = isLoggedIn ? "환영합니다" : ____;
+console.log(msg);`,
+          acceptableAnswers: [
+            '"로그인이 필요합니다"',
+            "'로그인이 필요합니다'",
+            "`로그인이 필요합니다`",
+          ],
+        },
+        {
+          title: "[배송비 조건] 경계값 처리",
+          desc: "50000 이상은 무료, 30000~49999는 2500원, 그 외는 3000원이 되도록 else if 조건식을 채우세요.",
+          explanation:
+            "경계값(임계값) 비교에서 구간이 겹치지 않도록 비교 순서와 범위를 명확히 합니다.",
+          code: `const price = 42000;
+let fee = "";
+if (price >= 50000) {
+  fee = "무료배송";
+} else if (____) {
+  fee = "배송비 2500원";
+} else {
+  fee = "배송비 3000원";
+}
+console.log(fee);`,
+          acceptableAnswers: [
+            "price>=30000 && price<50000",
+            "price>=30000&&price<50000",
+            "(price>=30000&&price<50000)",
+            "price>=30000",
+            "price >= 30000",
+          ],
+        },
+        {
+          title: "[while] 3회 출력 조건",
+          desc: "'학습중...'이 정확히 3번 출력되도록 while의 조건식을 채우세요.",
+          explanation:
+            "카운터 변수를 0부터 시작해 3 미만일 동안 반복하면 3회가 됩니다.",
+          code: `let i = 0;
+while (____) {
+  console.log("학습중...");
+  i++;
+}`,
+          acceptableAnswers: ["i<3", "i < 3"],
+        },
+        {
+          title: "[while] 카운트다운",
+          desc: "n이 5에서 1까지 출력되도록 while의 조건식을 채우세요.",
+          explanation:
+            "n을 5에서 시작하여 0보다 클 동안 출력 후 n--로 감소시킵니다.",
+          code: `let n = 5;
+while (____) {
+  console.log(n);
+  n--;
+}`,
+          acceptableAnswers: ["n>0", "n > 0"],
+        },
+
+        {
+          title: "[for] 3의 배수 출력 (1~15)",
+          desc: "1부터 15까지 중 3의 배수만 출력되도록 if의 조건식을 채우세요.",
+          explanation:
+            "루프 내부에서 현재 값 k가 3으로 나누어 떨어질 때만 출력합니다.",
+          code: `for (let k = 1; k <= 15; k++) {
+  if (____) {
+    console.log(k);
+  }
+}`,
+          acceptableAnswers: ["k%3===0", "k % 3 === 0"],
+        },
+        {
+          title: "[문자열 순회] 각 문자 출력",
+          desc: "word의 각 문자를 한 줄에 하나씩 출력하도록 출력 식을 채우세요.",
+          explanation:
+            "문자열은 인덱스로 접근 가능합니다. charAt(index) 또는 대괄호 표기 사용.",
+          code: `const word = "mango";
+for (let x = 0; x < word.length; x++) {
+  console.log(____);
+}`,
+          acceptableAnswers: ["word.charAt(x)", "word[x]"],
+        },
+        {
+          title: "[누적 합] 1~10 합",
+          desc: "sum에 1부터 10까지 누적되도록 for 블록 안의 한 줄을 채우세요.",
+          explanation:
+            "누적 합은 현재 합계에 다음 값을 더해 갱신합니다. 즉, sum = sum + t 와 동일한 의미의 축약형 sum += t 를 사용하면 매 반복마다 t가 sum에 더해져 최종적으로 55가 됩니다.",
+          code: `let sum = 0;
+for (let t = 1; t <= 10; t++) {
+  ____
+}
+console.log(sum);`,
+          acceptableAnswers: [
+            "sum+=t;",
+            "sum += t;",
+            "sum=sum+t;",
+            "sum = sum + t;",
+          ],
+        },
+        {
+          title: "[중첩 반복] 별 계단 (증감식 채우기)",
+          desc: "각 줄 번호 r만큼 별이 찍히도록 안쪽 for의 조건식을 채우세요.",
+          explanation:
+            "바깥 반복은 줄 번호 r(1~4)을 제어하고, 안쪽 반복은 c를 1부터 r까지 증가시키며 별을 r개 누적합니다. 따라서 안쪽 반복의 조건은 c <= r 이어야 각 줄마다 r개의 '*'가 만들어집니다.",
+          code: `for (let r = 1; r <= 4; r++) {
+  let stars = "";
+  for (let c = 1; ____; c++) {
+    stars += "*";
+  }
+  console.log(stars);
+}`,
+          acceptableAnswers: ["c<=r", "c <= r"],
+        },
+        {
+          title: "[break] 첫 9의 배수",
+          desc: "1부터 증가하며 처음 만나는 9의 배수를 출력한 뒤 반복을 즉시 종료하도록 빈칸을 채우세요.",
+          explanation:
+            "break 는 현재 반복을 즉시 끝냅니다. i가 9의 배수가 되는 첫 순간에 값을 출력하고 break 하면 이후 값(18, 27, ...)은 검사하지 않습니다.",
+          code: `for (let i = 1; i <= 100; i++) {
+  if (i % 9 === 0) {
+    console.log(i);
+    ____
+  }
+}`,
+          acceptableAnswers: ["break;", "break"],
+        },
+        {
+          title: "[continue] 1~30 합(4의 배수 제외)",
+          desc: "4의 배수는 더하지 않도록 해당 회차를 건너뛰는 제어 구문을 채우세요.",
+          code: `let total = 0;
+for (let i = 1; i <= 30; i++) {
+  if (i % 4 === 0) {
+    ____
+  }
+  total += i;
+}
+console.log(total);`,
+          acceptableAnswers: ["continue;", "continue"],
+        },
+      ];
+
+      function renderQuestions() {
+        const container = document.getElementById("questions");
+        questions.forEach((q, idx) => {
+          const div = document.createElement("div");
+          div.className = "question";
+
+          // 1) 코드 전체를 escape
+          const escaped = q.code
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+          // 2) escape된 코드 내의 빈칸 표시에 실제 input 삽입
+          const codeWithInput = escaped.replace(
+            "____",
+            `<input type="text" class="inline-input" id="answer${idx}" placeholder="빈칸 답">`
+          );
+
+          div.innerHTML = `
+            <h3>문제 ${idx + 1}. ${q.title}</h3>
+            <p class="answers-hint">${
+              q.desc || "빈칸에 들어갈 식 또는 구문을 입력하세요."
+            }</p>
+            <pre><code>${codeWithInput}</code></pre>
+           <span class="result" id="result${idx}"></span>
+           <div id="qexp${idx}" class="q-explanation"></div>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      function normalize(str) {
+        return (str || "").replace(/\s+/g, "").trim();
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+        questions.forEach((q, idx) => {
+          const input = document.getElementById(`answer${idx}`);
+          const user = normalize(input ? input.value : "");
+          const resultSpan = document.getElementById(`result${idx}`);
+          const expDiv = document.getElementById(`qexp${idx}`);
+
+          const ok = (q.acceptableAnswers || []).some(
+            (ans) => normalize(ans) === user
+          );
+          if (ok) {
+            resultSpan.textContent = "✓ 정답";
+            resultSpan.className = "result correct";
+            correct++;
+            if (expDiv) {
+              expDiv.style.display = "none";
+              expDiv.textContent = "";
+            }
+          } else {
+            resultSpan.textContent = "✗ 오답";
+            resultSpan.className = "result incorrect";
+            if (expDiv) {
+              const firstAns =
+                q.acceptableAnswers && q.acceptableAnswers[0]
+                  ? q.acceptableAnswers[0]
+                  : "";
+              const explanationText =
+                q.explanation || "문제를 다시 한 번 생각해 보세요.";
+              expDiv.innerHTML = `${explanationText}<div class="q-answer">정답: ${firstAns}</div>`;
+              expDiv.style.display = "block";
+            }
+          }
+        });
+        alert(`총 ${questions.length}문제 중 ${correct}문제를 맞추셨습니다!`);
+      }
+
+      function toggleExplanation() {
+        const explanation = document.getElementById("explanation");
+        const isHidden =
+          window.getComputedStyle(explanation).display === "none";
+        explanation.style.display = isHidden ? "block" : "none";
+      }
+
+      renderQuestions();
+    </script>
+  </body>
+</html>
