@@ -20,6 +20,7 @@
  *       → seconds : 0 ~ 59
  *   9) Date(year, monthIndex, day, hours, minutes, seconds, milliseconds)
  *       → milliseconds : 0 ~ 999
+ * 
  * 3. 주요 메소드
  *   1) Date.now()
  *       → 현지 시간을 타임스탬프 형식으로 반환
@@ -92,3 +93,7 @@ console.log(today.toTimeString());      // 22:12:24 GMT+0900 (대한민국 표�
 console.log(today.toLocaleString());    // 2025. 4. 20. 오후 10:12:24
 console.log(today.toLocaleDateString()); // 2025. 4. 20.
 console.log(today.toLocaleTimeString()); // 오후 10:12:24
+
+
+
+

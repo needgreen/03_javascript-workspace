@@ -117,6 +117,3 @@ dog.speak();
     prototype에 정의 : prototye의 메소드만 수정하면 인스턴스에 즉각 반영됨.
 
 */
-
-
-

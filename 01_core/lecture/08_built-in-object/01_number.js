@@ -139,11 +139,11 @@ const getTotal = (arr) => {
  // 2. 배열에 포함된 요소 순회
  // 3. 숫자 요소 확인
  // 4. 정수 형태로 변환 총합 
-
+ 
    let total = 0;
    arr.forEach((item) => {
      // console.log(item / 1);  // 전체 요소 중 숫자 확인
-      if (!Number.isNaN(item / 1) && typeof item !== 'boolean') {
+      if (Number.isNaN(item / 1) && typeof item !== 'boolean') {
        total += Number.parseInt(item);
       }   
    });
