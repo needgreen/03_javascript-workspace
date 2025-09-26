@@ -57,7 +57,22 @@
  *       → 서버로부터 받은 JSON 문자열 데이터를 JavaScript 데이터로 바꿀 때 주로 활용
  */
  
- 
+const product = {
+  name: 'mouse',
+  brand: 'logitech',
+  price: 89000,
+  model: ['G301', 'MX Master'],
+};
+
+console.log(product);
+console.log(JSON.stringify(product));  // JavaScript 객체 => JSON 문자열로 변환
+
+const productStr = '{"name":"mouse","brand":"logitech","price":89000,"model":["G301","MX Master"]}'
+console.log(JSON.parse(productStr));   // JSON 문자열 => JavaScript 객체로 변환
+
+
+
+
  /*
   실습. printObject() 함수 구현 
   1. 기능

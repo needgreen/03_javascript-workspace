@@ -57,3 +57,22 @@ const student1 = new Student('김ㅋㅋ', 17);
 const student2 = new Student('박좋아', 19);
 console.log(student1);
 console.log(student2);
+
+
+
+// 연습 코드 
+
+function Car(brand, color) {
+  // this = 새로 만들어질 객체
+  this.brand = brand;  // 새 객체에 brand 속성 추가
+  this.color = color;  // 새 객체에 color 속성 추가
+  this.getInfo = function() {
+	  return `브랜드는 ${this.brand}이고 컬러는 ${this.color}입니다.`;
+  }; 
+}
+
+const myCar = new Car('Tesla', 'red');
+console.log(myCar);
+// 출력 Car { brand: 'Tesla', color: 'red', getInfo: [Function (anonymous)] }
+console.log(myCar.getInfo());
+// 출력 브랜드는 Tesla이고 컬러는 red입니다.
