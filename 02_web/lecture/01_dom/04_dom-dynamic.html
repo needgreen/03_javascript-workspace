@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        padding: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    📌동적으로 노드 생성 및 추가 
+    1. Document.prototype.createElement(tagName) : 인자로 전달받은 태그 이름에 해당하는 요소 노드 생성 후 반환 
+    2. Document.prototype.createTextNode(text)   : 인자로 전달받은 텍스트 값으로 텍스트 노드 생성 후 반환 
+    3. Node.prototype.appendChild(childNode)     : 인자로 전달받은 노드를 appendChild를 호출한 노드의 마지막 자식 노드로 추가
+  -->
+    <h2>동적으로 노드 생성 및 추가</h2>
+
+    <div id="drink">
+      <h4>커피</h4>
+    </div>
+
+    <button onclick="createNode();">노드 생성 및 추가</button>
+
+    <script>
+      function createNode() {
+        // <h4>콜라</h4> 노드 생성해서 #drink 내의 자손 뒤 추가
+
+        /*
+        const $cokeH4 = document.createElement("h4");
+        $cokeH4.innerText = "콜라";
+        //console.log($cokeH4);
+        document.querySelector("#drink").appendChild($cokeH4);
+        */
+
+        // 추가시킬 요소를 문자열(마크업 포함)로 만ㄷ르 때 => innerHTML 값 수정
+        // document.querySelector("#drink").innerHTML += "<h4>콜라</h4>"; // = 새로운 값으로 덮어쓰기  += 추가
+        // insertAdjacentHTML(위치, 추가할 마크업)
+        document
+          .querySelector("#drink")
+          .insertAdjacentHTML("beforeend", "<h4>콜라</h4>");
+      }
+    </script>
+
+    <h3>void 요소 노드 생성 및 추가</h3>
+
+    <div id="img-container"></div>
+
+    <button onclick="createVoidNode();">void 요소 노드 생성 및 추가</button>
+
+    <script>
+      function createVoidNode() {
+        const $imgElement = document.createElement("img");
+        $imgElement.src = "../../../assets/images/flower1.jpg";
+        $imgElement.width = 200;
+
+        document.querySelector("#img-container").appendChild($imgElement);
+      }
+    </script>
+
+    <h3>복수의 노드 생성 및 추가</h3>
+
+    <ul id="food">
+      <li>김치찌개</li>
+    </ul>
+
+    <button onclick="createMultipleNodes();">복수의 노드 생성 및 추가</button>
+
+    <script>
+      function createMultipleNodes() {
+        // 3개의 li 요소 만들어서 추가
+        const foodList = ["된장찌개", "고등어구이", "순대국"];
+
+        /*
+        // 배열 내의 요소 개수만큼 리페인트가 됨 (예- 3회)  => 비효율
+        foodList.forEach((food) => {
+          const $liElement = document.createElement("li");
+          $liElement.innerText = food;
+          document.querySelector("#food").appendChild($liElement);
+        }); 
+        */
+        const fragment = document.createDocumentFragment(); // 요소 객체들을 추가해 둘 수 있는 가상 노드
+        foodList.forEach((food) => {
+          const $liElement = document.createElement("li");
+          $liElement.innerText = food;
+          fragment.appendChild($liElement);
+        });
+
+        document.querySelector("#food").appendChild(fragment);
+      }
+    </script>
+
+    <hr />
+
+    <!-- 
+    📌노드 복사, 교체, 삭제
+    1. Node.prototype.cloneNode([deep: true|false]) 
+        → 노드의 사본을 생성해서 반환 
+        → deep(Optional) : 깊은 복사 여부 (기본값: false)
+                         : true로 설정시 깊은 복사하여 모든 자손 노드가 포함된 사본을 생성
+                         : false일 경우 얖은 복사를 진행하여 노드 자신만의 사본을 생성 
+
+    2. Node.prototype.replaceChild(newChild, oldChild) 
+        → 호출한 노드의 자식 노드 중 oldChild 노드를 newChild 노드로 교체
+        → oldChild 노드는 DOM에서 제거됨 
+
+    3. Node.prototype.removeChild(child) 
+        → 호출한 노드의 자식 노드를 찾아 DOM에서 제거
+
+    4. Element.prototype.remove()
+        → 호출한 노드를 DOM에서 제거
+  -->
+
+    <h2>노드 복사</h2>
+
+    <ul id="copy">
+      ul 영역
+      <li>li 영역</li>
+    </ul>
+
+    <div id="copy-result" style="width: 200px; background: lightgray"></div>
+
+    <button onclick="cloneNodeTest();">노드 복사</button>
+
+    <script>
+      function cloneNodeTest() {
+        const $shallowClone = document.querySelector("#copy").cloneNode(); // 얕은 복사
+        console.log($shallowClone); // ul 요소노드만 복제되고 내부 텍스트, 내부 요소노드는 없음
+
+        const $deepClone = document.querySelector("#copy").cloneNode(true); // 얕은 복사
+        console.log($deepClone);
+
+        document.querySelector("#copy-result").appendChild($deepClone);
+      }
+    </script>
+
+    <hr />
+
+    <h2>노드 교체</h2>
+
+    <div id="replace">
+      <img src="../../../assets/images/city1.jpg" width="200px" />
+    </div>
+
+    <button onclick="replaceNodeTest();">노드 교체</button>
+
+    <script>
+      function replaceNodeTest() {
+        const $replace = document.querySelector("#replace");
+        $replace.replaceChild(
+          document.querySelector("#copy").cloneNode(true), // cloneNode(true) => 깊은 복사
+          $replace.firstElementChild
+        );
+      }
+    </script>
+
+    <hr />
+
+    <h2>노드 삭제</h2>
+
+    <style>
+      #remove {
+        width: 200px;
+        height: 100px;
+        background: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #item1 {
+        background: red;
+      }
+      #item2 {
+        background: orange;
+      }
+      #item3 {
+        background: green;
+      }
+    </style>
+    <div id="remove">
+      <span id="item1">item1</span>
+      <span id="item2">item2</span>
+      <span id="item3">item3</span>
+    </div>
+
+    <button onclick="removeNodeTest();">노드 삭제</button>
+
+    <script>
+      function removeNodeTest() {
+        document.querySelector("#item2").remove();
+      }
+    </script>
+  </body>
+</html>
