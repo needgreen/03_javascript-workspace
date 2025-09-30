@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        body {padding: 60px;}
+      body {
+        padding: 60px;
+      }
     </style>
-    </head>
-    <body>
-        <!-- 
+  </head>
+  <body>
+    <!-- 
             📌 노드 탐색
             1. 특정 노드 취득 후 취득한 요소 기준으로 DOM 트리의 노드를 옮겨 다니며 부모, 형제, 자식 노드를 탐색하는 방법
             2. Node, Element 에서 탐색을 위한 프로퍼티를 제공함 
@@ -29,7 +31,7 @@
                     → 텍스트노드("\n") 
         -->
 
-        <!-- 
+    <!-- 
             * 자식 노드 탐색 
             1. Node.prototype.childNodes : 자식 노드(요소 노드, 텍스트 노드)를 탐색하여 NodeList에 담아 반환 
             2. Node.prototype.firstChild : 첫번째 자식 노드(요소 노드, 텍스트 노드) 반환 
@@ -49,62 +51,56 @@
             4. Element.prototype.nextElementSibling : 형제 요소 노드 중 자신의 다음 형제 요소 노드를 탐색하여 반환
         -->
 
+    <h2>노드 탐색</h2>
 
-        <h2>노드 탐색</h2>
+    <ul id="test">
+      <li class="coffee">커피</li>
+      <li class="coke">콜라</li>
+      <li class="milk">우유</li>
+    </ul>
 
-        <ul id="test">
-            <li class="coffee">커피</li>
-            <li class="coke">콜라</li>
-            <li class="milk">우유</li>
-        </ul>
+    <button onclick="childNodeTraversing();">자식노드 탐색</button>
+    <button onclick="parentNodeTraversing();">부모노드 탐색</button>
+    <button onclick="siblingNodeTraversing();">형제노드 탐색</button>
 
-        <button onclick="childNodeTraversing();">자식노드 탐색</button>
-        <button onclick="parentNodeTraversing();">부모노드 탐색</button>
-        <button onclick="siblingNodeTraversing();">형제노드 탐색</button>
+    <script>
+      function childNodeTraversing() {
+        // 자식 노드 탐색  #test의 자식들 탐색  //dom 요소를 담는 변수임을 나타낼 때 통상적으로 $ 사용
+        const $test = document.querySelector("#test");
+        console.log($test);
+        console.log($test.hasChildNodes());
 
-        <script>
+        // 모든 자손들
+        console.log($test.childNodes); // NodeList (요소 노드 뿐만 아니라 텍스트 노드까지 가져옴, 개행도 문자로 취급됨)
+        console.log($test.children); // HTMLCollection (요소 노드만 포함)
 
-            function childNodeTraversing() {
-            // 자식 노드 탐색  #tset의 자식들 탐색  //dom 요소를 담는 변수임을 나타낼 때 통상적으로 $ 사용
-            const $test = document.querySelector("#test");  
-            console.log($test);
-            console.log($test.hasChildNodes());
+        // 첫번째 자손
+        console.log($test.firstChild); // NodeList 내의 첫번째 노드(텍스트노드)
+        console.log($test.firstElementChild); // HTMLCollection 내의 첫번째 노드 (요소 노드) -> **많이 쓰임
 
-            // 모든 자손들
-            console.log($test.childNodes);  // NodeList (요소 노드 뿐만 아니라 텍스트 노드까지 가져옴, 개행도 문자로 취급됨)
-            console.log($test.children);    // HTMLCollection (요소 노드만 포함)
+        // 마지막 자손
+        console.log($test.lastChild); // NodeList 내의 마지막 노드(텍스트노드)
+        console.log($test.lastElementChild); // HTMLCollection 내의 마지막 노드 (요소 노드) -> **많이 쓰임
+      }
 
-            // 첫번째 자손
-            console.log($test.firstChild);  // NodeList 내의 첫번째 노드(텍스트노드)
-            console.log($test.firstElementChild); // HTMLCollection 내의 첫번째 노드 (요소 노드) -> **많이 쓰임
+      function parentNodeTraversing() {
+        // .coke 기준으로 상위 요소
+        const $coke = document.querySelector(".coke");
 
-            // 마지막 자손
-            console.log($test.lastChild);  // NodeList 내의 마지막 노드(텍스트노드)
-            console.log($test.lastElementChild); // HTMLCollection 내의 마지막 노드 (요소 노드) -> **많이 쓰임
+        // 바로 상위 요소
+        console.log($coke.parentNode);
+        console.log($coke.parentElement);
 
-            }
+        // 요소가 많이 중첩되어있을 경우 모든 상위 요소들 중에 특정 상위 요소를 선택
+        console.log($coke.closest("body")); // ** closest(selector) => 상위 요소들 중 해당 선택자에 만족하는 가장 가까운 상위 요소를 반환하는 메서드
+      }
 
-            function parentNodeTraversing() {
-            // .coke 기준으로 상위 요소
-            const $coke = document.querySelector(".coke");
-            
-            // 바로 상위 요소
-            console.log($coke.parentNode);       
-            console.log($coke.parentElement);   
+      function siblingNodeTraversing() {
+        const $coke = document.querySelector(".coke");
 
-            // 요소가 많이 중첩되어있을 경우 모든 상위 요소들 중에 특정 상위 요소를 선택
-            console.log($coke.closest("body"));  // ** closest(selector) => 상위 요소들 중 해당 선택자에 만족하는 가장 가까운 상위 요소를 반환하는 메서드
-
-            }
-
-            function siblingNodeTraversing() {
-            const $coke = document.querySelector(".coke");
-
-            console.log($coke.previousElementSibling);
-            console.log($coke.nextElementSibling);
-            }    
-        </script>
-
-
-    </body>
+        console.log($coke.previousElementSibling);
+        console.log($coke.nextElementSibling);
+      }
+    </script>
+  </body>
 </html>
