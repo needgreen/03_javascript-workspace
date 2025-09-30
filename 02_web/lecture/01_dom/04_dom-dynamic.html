@@ -36,7 +36,7 @@
         document.querySelector("#drink").appendChild($cokeH4);
         */
 
-        // 추가시킬 요소를 문자열(마크업 포함)로 만ㄷ르 때 => innerHTML 값 수정
+        // 추가시킬 요소를 문자열(마크업 포함)로 만들 때 => innerHTML 값 수정
         // document.querySelector("#drink").innerHTML += "<h4>콜라</h4>"; // = 새로운 값으로 덮어쓰기  += 추가
         // insertAdjacentHTML(위치, 추가할 마크업)
         document
@@ -130,7 +130,7 @@
         const $shallowClone = document.querySelector("#copy").cloneNode(); // 얕은 복사
         console.log($shallowClone); // ul 요소노드만 복제되고 내부 텍스트, 내부 요소노드는 없음
 
-        const $deepClone = document.querySelector("#copy").cloneNode(true); // 얕은 복사
+        const $deepClone = document.querySelector("#copy").cloneNode(true); // 깊은 복사
         console.log($deepClone);
 
         document.querySelector("#copy-result").appendChild($deepClone);
