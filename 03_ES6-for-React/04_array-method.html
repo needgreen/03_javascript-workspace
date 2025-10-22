@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      {
+        // filter : 요소들 필터링
+        const nums = [12, 5, 90, 45, 1, 18, 2, 9];
+
+        // nums로부터 짝수인 데이터들만 담긴 배열 취득
+        const evenNums = nums.filter((num) => num % 2 === 0); // true 인 값만 반환 [12, 90, 18, 2]
+      }
+
+      {
+        // map : 각 요소들 가공처리
+        const seasons = ["봄", "여름", "가을", "겨울"];
+
+        // seasons 배열의 요소들을 div 요소로 만들어 담긴 배열 취득
+        const seasonElement = seasons.map(
+          (season, index) => `<div>${season}</div>`
+        );
+        // ${} => 표현식 삽입구문  // [`<div>봄</div>`,`<div>여름</div>`,...]
+      }
+    </script>
+  </body>
+</html>

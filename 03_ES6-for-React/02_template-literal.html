@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      {
+        // 일반문자열(따옴표) - 문자열 내에 줄바꿈 허용 안됨
+        // const element = `<ul>
+        // <li>목록</li>
+        // </ul>`;
+        // 템플릿 리터럴(백틱) - 문자열 내에 줄바꿈 허용 가능
+        const element = `
+        <ul>
+         <li>목록</li>
+        </ul>
+        `;
+
+        const name = "김코딩";
+        const age = 20;
+
+        // 일반 문자열 - 문자열 조합 불편
+        const message1 = "저는" + name + "이고" + age + "세입니다.";
+
+        // 템플릿 리터럴 - 문자열 조합 편리 (표현식 삽입) 연산도 가능
+        const message2 = `저는 ${name} 이고 ${age}세입니다. 1년 뒤에는 ${
+          age + 1
+        }입니다.`;
+        console.log(message2);
+      }
+    </script>
+  </body>
+</html>
